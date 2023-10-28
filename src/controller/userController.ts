@@ -12,6 +12,7 @@ class userController {
 
     public createUsers = asyncHandler(async (req:Request, res:Response): Promise<void> => {
         const {firstName, lastName} = req.body;
+
         const user = await User.create({
             firstName,
             lastName

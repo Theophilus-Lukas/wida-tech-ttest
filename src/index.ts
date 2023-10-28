@@ -6,6 +6,7 @@ import userRoute from "./route/userRoute";
 dotenv.config();
 
 const app: Application = express();
+app.use(express.json())
 
 const db = new Database;
 db.sequelize?.sync();
