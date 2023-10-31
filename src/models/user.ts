@@ -18,7 +18,8 @@ export class User extends Model {
 User.init({
   firstName: DataTypes.STRING,
   lastName: DataTypes.STRING,
-  email: DataTypes.STRING
+  email: DataTypes.STRING,
+  password: DataTypes.STRING,
 }, {
   sequelize: db.sequelize,
   modelName: 'User',

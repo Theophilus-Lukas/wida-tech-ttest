@@ -22,6 +22,11 @@ class userRoute {
             // middleware,
             this.userController.createUsers
         );
+        this.router.post(
+            `${this.path}/login`,
+            // middleware,
+            this.userController.login
+        );
     }
 }
 export default userRoute
