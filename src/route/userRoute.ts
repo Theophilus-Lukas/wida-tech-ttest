@@ -27,6 +27,11 @@ class userRoute {
             // middleware,
             this.userController.login
         );
+        this.router.get(
+            `${this.path}/testperformance`,
+            // middleware,
+            this.userController.bigRequest
+        );
     }
 }
 export default userRoute

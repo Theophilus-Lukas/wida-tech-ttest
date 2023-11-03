@@ -47,6 +47,46 @@ class userController {
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET_KEY)
         res.status(status.OK).json({email: email, user_id: user.id, token: token})
     });
+
+    public bigRequest = asyncHandler(async (req:Request, res:Response): Promise<void> => {
+        const {search_id} = req.body;
+        const start = new Date().getTime();
+        const users = await User.findAll({
+            order: [['id', 'ASC']],
+        })
+        let result
+        // for (let i = 0; i< users.length; i+=1) {
+        //     await sleep(1000)
+        //     if (users[i].id == search_id) {
+        //         result = users[i]
+        //         break
+        //     }
+        //     console.log("elapsed ", new Date().getTime() - start)
+        // }
+
+        let left = 0;
+        let right = users.length -1;
+        while(left <= right) {
+            await sleep(1000)
+            const mid = Math.floor((right+left)/2);
+            if (users[mid].id === search_id){
+                result = users[mid];
+                break;
+            } else if (users[mid].id < search_id) {
+                left = mid+1
+            } else {
+                right = mid-1
+            }
+            console.log("elapsed ", new Date().getTime() - start)
+        }
+        
+        const end = new Date().getTime();
+        res.status(status.OK).json({result: result, exttime: end-start})
+    });
+}
+
+function sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export default userController
