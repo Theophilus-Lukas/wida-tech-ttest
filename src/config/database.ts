@@ -1,38 +1,31 @@
+import { NODE_ENV } from "@utils/constants.utils";
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import config from "./config";
 
-dotenv.config()
+const dbConfig = config[NODE_ENV] || config["development"];
+const sequelize = new Sequelize(
+	dbConfig.database as string,
+	dbConfig.username as string,
+	dbConfig.password,
+	dbConfig
+);
 
-class Database {
-    public sequelize: Sequelize | undefined;
-
-    private POSTGRES_DB = process.env.POSTGRES_DB as string;
-    private POSTGRES_HOST = process.env.POSTGRES_HOST as string;
-
-    private POSTGRES_PORT = process.env.POSTGRES_PORT as unknown as number;
-    private POSTGRES_USER = process.env.POSTGRES_USER as unknown as string;
-    private POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD as unknown as string;
-
-    constructor() {
-        this.connectToPostgreSQL();
-    }
-
-    private async connectToPostgreSQL() {
-        this.sequelize = new Sequelize({
-            database: this.POSTGRES_DB,
-            username: this.POSTGRES_USER,
-            password: this.POSTGRES_PASSWORD,
-            host: this.POSTGRES_HOST,
-            port: this.POSTGRES_PORT,
-            dialect: "postgres",
-        });
-
-        await this.sequelize.authenticate().then(() => {
-            console.log("Database connected")
-        }).catch((err) => {
-            console.error("Failed to connect to database", err)
-        })
-    }
+{
+	NODE_ENV !== "test"
+		? sequelize
+				.authenticate()
+				.then(() => {
+					console.log("Database Connected, ENV:", NODE_ENV);
+				})
+				.catch((err) => {
+					console.log("Database connection failed", err);
+				})
+		: null;
 }
 
-export default Database
+const db = {
+	sequelize,
+	Sequelize,
+};
+
+export default db;
