@@ -6,6 +6,7 @@ import { Routes } from "@interfaces/routes.interface";
 import db from "@config/database";
 import { StatusCodes as status } from "http-status-codes";
 import { PORT, NODE_ENV } from "@utils/constants.utils";
+import errorMiddleware from "@middlewares/error.middleware";
 
 import { apiResponse } from "@utils/apiResponse.utils";
 
@@ -27,6 +28,8 @@ class App {
 		this.initializeMiddlewares();
 
 		this.initializeRoutes("/api", routes);
+
+		this.initializeErrorHandling();
 
 		this.initializeNotFound();
 	}
@@ -62,6 +65,10 @@ class App {
 				exposedHeaders: ["x-activity-hash"],
 			})
 		);
+	}
+
+	private initializeErrorHandling(): void {
+		this.app.use(errorMiddleware);
 	}
 
 	private initializeNotFound(): void {
