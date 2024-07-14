@@ -67,4 +67,10 @@ ProductSold.belongsTo(Invoice, {
 	as: "invoice",
 });
 
+Invoice.hasMany(ProductSold, {
+	sourceKey: "invoice_no",
+	foreignKey: "invoice_no",
+	as: "product_sold",
+});
+
 export default ProductSold;

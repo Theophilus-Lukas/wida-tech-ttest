@@ -64,6 +64,8 @@ export default class InvoiceService {
 				sales_person: invoice.sales_person,
 				payment_type: invoice.payment_type,
 				notes: invoice.notes,
+				total_paid: total_paid,
+				product_sold: invoice.product_sold,
 			};
 		});
 

@@ -65,10 +65,4 @@ Invoice.init(
 	}
 );
 
-Invoice.hasMany(ProductSold, {
-	sourceKey: "invoice_no",
-	foreignKey: "invoice_no",
-	as: "product_sold",
-});
-
 export default Invoice;
