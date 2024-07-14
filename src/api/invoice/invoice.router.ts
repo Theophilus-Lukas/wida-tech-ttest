@@ -21,6 +21,11 @@ class invoiceRoute {
 			// middleware,
 			this.invoiceController.createInvoice
 		);
+		this.router.get(
+			`${this.path}/analytics`,
+			// middleware,
+			this.invoiceController.getInvoicesAnalytics
+		);
 	}
 }
 export default invoiceRoute;

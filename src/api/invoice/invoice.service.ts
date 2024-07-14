@@ -4,6 +4,9 @@ import { ApiResponseInterface } from "@interfaces/apiResponse.interface";
 import { apiResponse } from "@utils/apiResponse.utils";
 import { metaPaginationBuilder } from "@utils/pagination.utils";
 
+import { groupInvoicesByDate } from "./invoice.function";
+import { group } from "console";
+
 export default class InvoiceService {
 	public createInvoice = async (
 		invoice_no: number,
@@ -77,6 +80,23 @@ export default class InvoiceService {
 			"Successfully retrieved all invoices",
 			result,
 			paginationInfo
+		);
+	};
+
+	public getInvoicesAnalytic = async (query: {
+		time_scale?: string;
+	}): Promise<ApiResponseInterface> => {
+		const scale = query?.time_scale || "month"; // month / day / year
+
+		const result = await Invoice.findAll({
+			group: "date",
+		});
+
+		return apiResponse(
+			200,
+			"OK",
+			"Successfully retrieved all invoices analytics",
+			result
 		);
 	};
 }

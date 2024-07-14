@@ -32,6 +32,18 @@ class invoiceController {
 			res.status(createInvoiceResponse.code).json(createInvoiceResponse);
 		}
 	);
+
+	public getInvoicesAnalytics = asyncHandler(
+		async (req: Request, res: Response): Promise<void> => {
+			const query = req.query as object as { time_scale?: string };
+			const getInvoicesAnalyticsResponse =
+				await this.InvoiceService.getInvoicesAnalytic(query);
+
+			res
+				.status(getInvoicesAnalyticsResponse.code)
+				.json(getInvoicesAnalyticsResponse);
+		}
+	);
 }
 
 export default invoiceController;
